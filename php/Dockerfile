@@ -20,4 +20,9 @@ RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"
 RUN mv composer.phar /usr/local/bin/composer
 
+WORKDIR /var/tmp/app
+
+RUN rm -rf /var/www/html
+RUN ln -sf /var/tmp/app/public /var/www/html 
+
 CMD ["apache2-foreground"]

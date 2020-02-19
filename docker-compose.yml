@@ -12,7 +12,6 @@ services:
     #image: php:7.3-fpm-alpine
     restart: always
     volumes:
-        - ./webroot:/var/www/html
-#        - ./php/php.ini:/usr/local/etc/php/php.ini
+        - ./app:/var/tmp/app
     ports:
       - 8080:80
