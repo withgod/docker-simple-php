@@ -8,17 +8,20 @@ RUN apt-get update \
 
 RUN apt-get update \
     && apt-get install -y libmemcached-dev zlib1g-dev\
+    && docker-php-ext-install  -j$(nproc) zip mbstring json opcache \
     && pecl install memcached-3.1.4 \
-    && docker-php-ext-enable memcached \
-    && docker-php-ext-install opcache \
-    && docker-php-ext-install zip \
-    && docker-php-ext-install mbstring
+    && docker-php-ext-enable memcached
+
+RUN docker-php-ext-install json
+
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 # skip check
 RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"
 RUN mv composer.phar /usr/local/bin/composer
+
+RUN a2enmod rewrite
 
 WORKDIR /var/tmp/app
 
